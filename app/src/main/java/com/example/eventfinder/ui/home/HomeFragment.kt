@@ -1,15 +1,16 @@
 package com.example.eventfinder.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.eventfinder.EventDetail
 import com.example.eventfinder.databinding.FragmentHomeBinding
+import com.example.eventfinder.model.Event
 import com.example.eventfinder.ui.adapter.CategoryAdapter
 import com.example.eventfinder.ui.adapter.EventAdapter
 import com.example.eventfinder.viewmodel.HomeViewModel
@@ -53,11 +54,19 @@ class HomeFragment : Fragment() {
         )
     }
 
+    private fun openEventDetailActivity(event: Event){
+        val imageUrl = event.images.firstOrNull { it.ratio == "16_9" }?.url
+        val intent = Intent(activity, EventDetail::class.java)
+        intent.putExtra("EVENT_ID", event.id)
+        intent.putExtra("EVENT_NAME", event.name)
+        intent.putExtra("EVENT_THUMB", imageUrl)
+        startActivity(intent)
+    }
+
     private fun observeViewModel() {
         viewModel.categories.observe(viewLifecycleOwner) { categories ->
             binding.rvCategories.adapter = CategoryAdapter(categories,  onCategoryClick = { clickedCategory ->
-                // when user clicks, update selectedCategoryId
-                // and load events based on clickedCategory.name
+
                 viewModel.loadEvents(clickedCategory.name)
 
             })
@@ -66,15 +75,13 @@ class HomeFragment : Fragment() {
             val events = eventResponse._embedded?.events ?: emptyList()
             binding.rvEvents.adapter = EventAdapter(
                 events,
+
                 onJoinClick = { event ->
-                    // Handle join button click
-                    // Example:
-                    // Toast.makeText(context, "Joining ${event.name}", Toast.LENGTH_SHORT).show()
+
                 },
+                onEventClick = {event -> openEventDetailActivity(event) },
                 onFavoriteClick = { event ->
-                    // Handle favorite button click
-                    // Example:
-                    // Toast.makeText(context, "Favorited ${event.name}", Toast.LENGTH_SHORT).show()
+
                 }
             )
         }

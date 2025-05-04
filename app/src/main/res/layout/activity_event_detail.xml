@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <!-- Event Image -->
+    <ImageView
+        android:id="@+id/eventImage"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="80dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Favorite Button on Image -->
+    <ImageButton
+        android:id="@+id/favoriteButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="@android:color/background_light"
+        android:contentDescription="Favorite"
+        android:src="@drawable/ic_favorite"
+        app:layout_constraintEnd_toEndOf="@id/eventImage"
+        app:layout_constraintTop_toTopOf="@id/eventImage" />
+
+    <!-- Event Details Container -->
+    <LinearLayout
+        android:id="@+id/detailsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/eventImage">
+
+        <!-- Category -->
+        <TextView
+            android:id="@+id/eventCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category: Music"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Date -->
+        <TextView
+            android:id="@+id/eventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Date: 2025-06-21 at 13:05"
+            android:textSize="16sp" />
+
+        <!-- Address -->
+        <TextView
+            android:id="@+id/eventAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Address: Yankee Stadium, Bronx, NY"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/bookButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Book"
+        app:layout_constraintBottom_toTopOf="@id/rememberMeButton"
+        app:layout_constraintEnd_toStartOf="@id/mapButton"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/mapButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Show in Map"
+        app:layout_constraintBottom_toTopOf="@id/rememberMeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/bookButton" />
+
+    <!-- Remember Me Button -->
+    <Button
+        android:id="@+id/rememberMeButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Remember Me"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="26dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detailsContainer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ import java.util.*
 class EventAdapter(
     private val eventList: List<Event>,
     private val onJoinClick: (Event) -> Unit,
+    private val onEventClick: (Event) -> Unit,
     private val onFavoriteClick: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
@@ -59,6 +60,9 @@ class EventAdapter(
                 .into(binding.concertImage)
         } else {
             binding.concertImage.setImageResource(R.drawable.concert) // fallback
+        }
+        binding.root.setOnClickListener{
+            onEventClick(event)
         }
 
         binding.joinButton.setOnClickListener {
