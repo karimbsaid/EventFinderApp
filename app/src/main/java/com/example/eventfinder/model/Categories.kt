@@ -4,10 +4,12 @@ import com.example.eventfinder.R
 
 object Categories {
     fun getDefaultCategories() = listOf(
-        Category(1, "Arts & Theatre", R.drawable.icon),
-        Category(2, "Sports", R.drawable.icon),
-        Category(3, "Film", R.drawable.icon),
-        Category(4, "Fitness", R.drawable.icon),
-        Category(5, "Music", R.drawable.icon)
+        Category(1, "All"),
+
+        Category(2, "Arts & Theatre"),
+        Category(3, "Sports"),
+        Category(4, "Film", ),
+        Category(5, "Fitness"),
+        Category(6, "Music")
     )
 }

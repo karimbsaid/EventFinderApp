@@ -8,9 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eventfinder.BuildConfig
 import com.example.eventfinder.model.Event
-import com.example.eventfinder.model.FavoriteItem
 import com.example.eventfinder.model.FavoriteRequest
-import com.example.eventfinder.network.RetrofitClient
+import com.example.eventfinder.network.TicketMasterClient
 import com.example.eventfinder.network.SupabaseClient
 import com.example.eventfinder.utils.TokenManager
 import kotlinx.coroutines.launch
@@ -34,7 +33,7 @@ class EventDetailVM : ViewModel() {
         Log.d("EventDetailVM", "Fetching event with ID: $eventId")
         viewModelScope.launch {
             try {
-                val event = RetrofitClient.api.getEventById(
+                val event = TicketMasterClient.api.getEventById(
                     id = eventId,
                     apiKey = apiKey
                 )

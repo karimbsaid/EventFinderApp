@@ -11,26 +11,35 @@ data class EmbeddedEvents(
 data class Event(
     val id: String,
     val name: String,
-    val url: String, // Added for Ticketmaster redirect
+    val url: String,
     val dates: EventDates,
     val _embedded: EventEmbedded,
     val images: List<EventImage>,
-    val classifications: List<Classification>? // Added for category
+    val classifications: List<Classification>? ,
+    val accessibility: Accessibility,
+    val promoter: Promoter,
+    var isFavorited: Boolean = false
+
 )
 
 data class EventImage(
     val ratio: String,
     val url: String
 )
-
+data class Promoter(
+    val name: String
+)
 data class EventDates(
     val start: EventStart
 )
-
+data class Accessibility(
+    val info: String,
+)
 data class EventStart(
     val localDate: String,
-    val localTime: String?
-)
+    val localTime: String?,
+    val dateTime: String,
+    )
 
 data class EventEmbedded(
     val venues: List<Venue>
@@ -61,10 +70,3 @@ data class State(
     val name: String?
 )
 
-data class Classification(
-    val segment: Segment
-)
-
-data class Segment(
-    val name: String
-)

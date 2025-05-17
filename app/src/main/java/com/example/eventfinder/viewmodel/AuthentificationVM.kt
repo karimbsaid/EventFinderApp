@@ -14,6 +14,7 @@ import com.example.eventfinder.utils.TokenManager.saveToken
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import org.json.JSONObject
 
 class AuthentificationVM() : ViewModel() {
 
@@ -24,8 +25,9 @@ class AuthentificationVM() : ViewModel() {
     val error: LiveData<String?> get() = _error
 
     fun login(context: Context, email: String, password: String) {
-        Log.d("username",email)
-        Log.d("password",password)
+        Log.d("username", email)
+        Log.d("password", password)
+
         viewModelScope.launch {
             try {
                 val response = SupabaseClient.api.login(AuthRequest(email, password))
@@ -34,17 +36,27 @@ class AuthentificationVM() : ViewModel() {
                     body?.let {
                         _user.value = it.user
                         saveToken(context, it.access_token)
+                        _error.value = null // Clear previous errors
                     }
                 } else {
-                    _error.value = "Login failed: ${response.code()}"
+                    val errorMsg = response.errorBody()?.string()
+                    val errorMessage = try {
+                        JSONObject(errorMsg).getString("msg")
+                    } catch (e: Exception) {
+                        errorMsg ?: "Login failed"
+                    }
+                    _error.value = errorMessage
                 }
             } catch (e: IOException) {
-                _error.value = "Network error"
+                _error.value = "Network error. Please check your connection."
             } catch (e: HttpException) {
-                _error.value = "Invalid email or password"
+                _error.value = "Login error: ${e.message()}"
+            } catch (e: Exception) {
+                _error.value = "Unexpected error: ${e.localizedMessage}"
             }
         }
     }
+
 
     fun register(context: Context, email: String, password: String) {
         viewModelScope.launch {
@@ -57,7 +69,13 @@ class AuthentificationVM() : ViewModel() {
                         saveToken(context, it.access_token)
                     }
                 } else {
-                    _error.value = "Registration failed: ${response.code()}"
+                    val errorMsg = response.errorBody()?.string()
+                    val errorMessage = try {
+                        JSONObject(errorMsg).getString("msg")
+                    } catch (e: Exception) {
+                        errorMsg ?: "Login failed"
+                    }
+                    _error.value = errorMessage
                 }
             } catch (e: IOException) {
                 _error.value = "Network error"

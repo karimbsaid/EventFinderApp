@@ -10,15 +10,6 @@
     android:layout_marginRight="5dp"
     android:gravity="center_vertical">
 
-    <ImageView
-        android:id="@+id/liveShowImage"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/icon"
-        android:scaleType="centerCrop"
-        android:background="@drawable/circle_background"
-        android:clipToOutline="true" />
-
     <TextView
         android:id="@+id/liveShowText"
         android:layout_width="wrap_content"

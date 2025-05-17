@@ -30,6 +30,15 @@ interface SupabaseApi {
         @Query("select") select: String = "*"
     ): Response<List<FavoriteItem>>
 
+
+    @GET("rest/v1/favorites")
+    suspend fun getFavoriteById(
+        @Header("Authorization") authHeader: String,
+        @Query("select") select: String = "*",
+        @Query("event_id") eventId: String,
+    ): Response<List<FavoriteItem>>
+
+
     @DELETE("rest/v1/favorites")
     suspend fun deleteFavorite(
         @Header("Authorization") authHeader: String,
