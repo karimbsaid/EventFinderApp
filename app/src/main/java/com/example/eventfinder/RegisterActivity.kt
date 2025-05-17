@@ -19,10 +19,12 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Aller à l'activité de connexion
         binding.goToLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
+        // Inscription
         binding.signUpButton.setOnClickListener {
             register()
         }
