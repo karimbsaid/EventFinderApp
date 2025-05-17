@@ -3,33 +3,31 @@ package com.example.eventfinder.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventfinder.R
 import com.example.eventfinder.model.Category
 
-// CategoryAdapter.kt
 class CategoryAdapter(
     private val categories: List<Category>,
     private val onCategoryClick: (Category) -> Unit
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
-    private var selectedPosition = 0 // First category selected by default
+    private var selectedPosition = 0
 
     inner class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val image = view.findViewById<ImageView>(R.id.liveShowImage)
         private val text = view.findViewById<TextView>(R.id.liveShowText)
-        private val container = view.findViewById<View>(R.id.liveShowButton) // The background container
+        private val container = view.findViewById<View>(R.id.liveShowButton)
 
         fun bind(category: Category, isSelected: Boolean) {
-            image.setImageResource(category.iconRes)
             text.text = category.name
 
             if (isSelected) {
-                container.setBackgroundResource(R.drawable.rounded_card_background) // Yellow background
+                container.setBackgroundResource(R.drawable.rounded_card_background_selected)
+                text.setTextColor(container.context.getColor(R.color.white))
             } else {
-                container.setBackgroundResource(R.drawable.rounded_card_background_black) // Black background
+                container.setBackgroundResource(R.drawable.rounded_card_background)
+                text.setTextColor(container.context.getColor(R.color.black))
             }
 
             container.setOnClickListener {
@@ -37,9 +35,10 @@ class CategoryAdapter(
                 selectedPosition = adapterPosition
                 notifyItemChanged(previousSelected)
                 notifyItemChanged(selectedPosition)
-                onCategoryClick(category) // Callback to ViewModel/UI
+                onCategoryClick(category)
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {

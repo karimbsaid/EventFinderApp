@@ -1,149 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="4dp"
-    android:background="@drawable/rounded_card_background">
+    app:cardElevation="4dp">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <!-- Image with date and favorite -->
-        <FrameLayout
+        <!-- Top Image with heart icon -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="180dp">
 
             <ImageView
-                android:id="@+id/concertImage"
+                android:id="@+id/eventImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:background="@drawable/rounded_card_background"
-                android:clipToOutline="true" />
+                android:src="@drawable/concert" />
 
-            <!-- Date badge -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|start"
-                android:layout_margin="12dp"
-                android:orientation="vertical"
-                android:background="@drawable/rounded_card_background"
-                android:padding="6dp"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/dateMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#000000" />
-
-                <TextView
-                    android:id="@+id/dateDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="20"
-                    android:textSize="16sp"
-                    android:textColor="#000000"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Favorite icon -->
             <ImageButton
                 android:id="@+id/favoriteButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="top|end"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
                 android:layout_margin="12dp"
-                android:background="@drawable/circle_background"
-                android:src="@drawable/favourite"
-                android:scaleType="centerInside"
-                app:tint="#000000" />
-        </FrameLayout>
+                android:background="@android:color/transparent"
+ />
+        </RelativeLayout>
 
-        <!-- Concert Title and Price -->
+        <!-- Content -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="12dp"
-            android:gravity="center_vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/concertTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#050505"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="4dp">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/location"
-                        android:layout_marginEnd="4dp"
-                        app:tint="#FFFFFF" />
-
-                    <TextView
-                        android:id="@+id/concertAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#2C2B2B"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-
+            <!-- Tag -->
             <TextView
-                android:id="@+id/concertPrice"
+                android:id="@+id/tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$40.230"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:background="@drawable/tag_background"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:text="Technology"
+                android:textColor="#7A5FF3"
+                android:textSize="12sp" />
 
-        <!-- Attendees and Join Button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:gravity="center_vertical">
-
-            <!-- Join Now Button -->
-            <Button
-                android:id="@+id/joinButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="48dp"
-                android:text="Join now"
-                android:background="@drawable/rounded_card_background"
-                android:textColor="#000000"
+            <!-- Title -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tech Conference 2023"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginStart="16dp"/>
-        </LinearLayout>
+                android:layout_marginTop="8dp"
+                android:textColor="#000000" />
 
+            <!-- Date -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/baseline_calendar_month_24"
+                    android:layout_marginEnd="6dp"
+                    app:tint="#666666" />
+
+                <TextView
+                    android:id="@+id/eventDate"
+                    android:text="2023-11-15"
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <!-- Location -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/baseline_place_24"
+                    android:layout_marginEnd="6dp"
+                    app:tint="#666666" />
+
+                <TextView
+                    android:id="@+id/eventAddress"
+                    android:text="San Francisco"
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <!-- Attendees -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+<!--                <ImageView-->
+<!--                    android:layout_width="16dp"-->
+<!--                    android:layout_height="16dp"-->
+<!--                    android:src="@drawable/baseline_people_24"-->
+<!--                    android:layout_marginEnd="6dp"-->
+<!--                    app:tint="#666666" />-->
+
+<!--                <TextView-->
+<!--                    android:text="1250 attending"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:textColor="#666666"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content" />-->
+            </LinearLayout>
+
+            <!-- Price -->
+
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -2,6 +2,7 @@ package com.example.eventfinder.ui.adapter
 import android.content.Intent
 import android.net.Uri
 import android.provider.CalendarContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -31,91 +32,46 @@ class EventAdapter(
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = eventList[position]
         val binding = holder.binding
+Log.d("isfavorited",event.isFavorited.toString())
+        binding.title.text = event.name
+        binding.tag.text = event.classifications?.get(0)?.segment?.name
 
-        // Set concert title
-        binding.concertTitle.text = event.name
-
-        // Set concert address
         val venue = event._embedded.venues.firstOrNull()
-        binding.concertAddress.text = venue?.address?.line1 ?: "Unknown Address"
+        binding.eventAddress.text =
+            (venue?.state?.name + " , " + venue?.city?.name + " , " + venue?.address?.line1)
+                ?: "Unknown Address"
 
-        // Set date
-        val dateParts = event.dates.start.localDate.split("-")
-        if (dateParts.size == 3) {
-            val month = getMonthName(dateParts[1].toInt())
-            val day = dateParts[2]
-            binding.dateMonth.text = month
-            binding.dateDay.text = day
-        }
+        val dateParts = event.dates.start.localDate
+       binding.eventDate.text=dateParts + " "+ event.dates.start.localTime
 
-        // Set concert price
-        binding.concertPrice.text = "$40" // Mocked
+        val favoriteIcon = if (event.isFavorited) R.drawable.ic_favorite_red else R.drawable.ic_favorite_white
+        binding.favoriteButton.setImageResource(favoriteIcon)
 
-        // Set image (default for now)
+
         val imageUrl = event.images.firstOrNull()?.url
         if (imageUrl != null) {
-            Glide.with(binding.concertImage.context)
+            Glide.with(binding.eventImage.context)
                 .load(imageUrl)
-                .placeholder(R.drawable.concert) // while loading
-                .into(binding.concertImage)
+                .placeholder(R.drawable.concert)
+                .into(binding.eventImage)
         } else {
-            binding.concertImage.setImageResource(R.drawable.concert) // fallback
+            binding.eventImage.setImageResource(R.drawable.concert)
         }
         binding.root.setOnClickListener{
             onEventClick(event)
         }
 
-        binding.joinButton.setOnClickListener {
-            val venue = event._embedded.venues.firstOrNull()
-            val latitude = venue?.location?.latitude?.toDouble() ?: 0.0
-            val longitude = venue?.location?.longitude?.toDouble() ?: 0.0
 
-            if (latitude != 0.0 && longitude != 0.0) {
-                val uri = "geo:$latitude,$longitude?q=$latitude,$longitude(${venue?.name})"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-                intent.setPackage("com.google.android.apps.maps")
-                startActivity(binding.root.context, intent, null)
-            } else {
-                Toast.makeText(binding.root.context, "Event location is unavailable", Toast.LENGTH_SHORT).show()
-            }
+        binding.favoriteButton.setOnClickListener {
+            onFavoriteClick(event)
         }
 
-        binding.favoriteButton.setOnClickListener { onFavoriteClick(event) }
-
-        binding.favoriteButton.setOnClickListener{
-            val startMillis = getEventStartTimeInMillis(event.dates.start.localDate, event.dates.start.localTime)
-
-            val intent = Intent(Intent.ACTION_INSERT).apply {
-                data = CalendarContract.Events.CONTENT_URI
-                putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-                putExtra(CalendarContract.Events.TITLE, event.name)
-                putExtra(CalendarContract.Events.EVENT_LOCATION, venue?.name ?: "Unknown Location")
-            }
-            startActivity(binding.root.context, intent, null)
-        }
     }
 
     override fun getItemCount(): Int {
         return eventList.size
     }
 
-    private fun getMonthName(month: Int): String {
-        return when (month) {
-            1 -> "Jan"
-            2 -> "Feb"
-            3 -> "Mar"
-            4 -> "Apr"
-            5 -> "May"
-            6 -> "Jun"
-            7 -> "Jul"
-            8 -> "Aug"
-            9 -> "Sep"
-            10 -> "Oct"
-            11 -> "Nov"
-            12 -> "Dec"
-            else -> ""
-        }
-    }
 
     private fun getEventStartTimeInMillis(localDate: String, localTime: String?): Long {
         val dateTimeString = "$localDate ${localTime ?: "00:00:00"}"

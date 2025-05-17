@@ -1,6 +1,7 @@
 package com.example.eventfinder.network
 
 // network/TicketmasterApi.kt
+import com.example.eventfinder.model.Classification
 import com.example.eventfinder.model.Event
 import com.example.eventfinder.model.EventResponse
 import retrofit2.http.GET
@@ -20,4 +21,9 @@ interface TicketmasterApi {
         @Path("id") id: String,
         @Query("apikey") apiKey: String
     ): Event
+
+    @GET("discovery/v2/classifications.json")
+    suspend fun getClassifications(
+        @Query("apikey") apiKey: String
+    ): List<Classification>
 }

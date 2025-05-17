@@ -4,148 +4,159 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.eventfinder.databinding.ActivityEventDetailBinding
-import com.example.eventfinder.databinding.ActivityMainBinding
-import com.example.eventfinder.databinding.FragmentHomeBinding
 import com.example.eventfinder.model.Event
+import com.example.eventfinder.model.FavoriteRequest
 import com.example.eventfinder.model.Venue
-import com.example.eventfinder.viewmodel.EventDetailVM
-import com.example.eventfinder.viewmodel.HomeViewModel
+import com.example.eventfinder.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
 
 class EventDetail : AppCompatActivity() {
     private lateinit var binding: ActivityEventDetailBinding
-    private lateinit var event: Event
-    private  var eventId = ""
-    private var eventName = ""
-    private var eventThumb = ""
-    private  var venue : Venue?=null
-    private val viewModel: EventDetailVM by viewModels()
+    private lateinit var eventDetail: Event
+    private var isFavorited:Boolean = false
+    private var venue: Venue? = null
+    private var eventId = ""
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEventDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getEventInfoFromIntent()
-        loadEventImage(eventThumb)
-        fetchEventDetails(eventId)
-        observeEventDetails()
+
+        eventId = intent.getStringExtra("EVENT_ID") ?: ""
+
         setupButtonListeners()
+        fetchEventDetails(eventId)
     }
 
-    private fun observeEventDetails() {
-        viewModel.eventDetail.observe(this) { event ->
+    private fun setupButtonListeners() {
+        binding.favoriteButton.setOnClickListener { toggleFavorite() }
+        binding.registerButton.setOnClickListener { openTicketmasterLink() }
+        binding.shareButton.setOnClickListener { shareEventLink() }
+        binding.rememberMeLabel.setOnClickListener{rememberMe()}
+        binding.showmapBtn.setOnClickListener{openGoogleMaps()}
+        binding.backButton.setOnClickListener{    setResult(RESULT_OK)
+            finish()}
+    }
+
+    private fun toggleFavorite() {
+        if (!isFavorited) {
+            val favoriteRequest = FavoriteRequest(eventDetail.id, eventDetail.name)
+            mainViewModel.addFavoriteEvent(
+                this,
+                favoriteRequest,
+                onSuccess = {
+                    isFavorited = true
+                    binding.favoriteButton.setImageResource(R.drawable.ic_favorite_red)
+                },
+                onFailure = {
+                    Toast.makeText(this, "Failed to add favorite", Toast.LENGTH_SHORT).show()
+                }
+            )
+        } else {
+            mainViewModel.removeFavoriteEvent(
+                this,
+                eventId,
+                onSuccess = {
+                    isFavorited = false
+                    binding.favoriteButton.setImageResource(R.drawable.ic_favorite)
+                },
+                onFailure = {
+                    Toast.makeText(this, "Failed to remove favorite", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
+    }
+
+
+    private fun openTicketmasterLink() {
+        val url = eventDetail.url
+        if (url.isNotEmpty()) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
+    }
+
+    private fun openGoogleMaps() {
+        val latitude = venue?.location?.latitude?.toDoubleOrNull()
+        val longitude = venue?.location?.longitude?.toDoubleOrNull()
+
+        if (latitude != null && longitude != null) {
+            val uri = "geo:$latitude,$longitude?q=$latitude,$longitude(${venue?.name})"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps")
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Event location is unavailable", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun shareEventLink() {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, eventDetail.url)
+        }
+        startActivity(Intent.createChooser(shareIntent, "Share event link via"))
+    }
+
+    private fun fetchEventDetails(eventId: String) {
+        mainViewModel.fetchEventDetail(eventId) { event ->
             if (event != null) {
-                this.event = event
+                eventDetail = event
                 displayEventDetails(event)
             } else {
                 showErrorState()
             }
         }
-    }
-    private fun loadEventImage(imageUrl: String?) {
-        if (imageUrl != null) {
-            Glide.with(this)
-                .load(imageUrl)
-                .placeholder(R.drawable.concert)
-                .into(binding.eventImage)
-            binding.eventImage.visibility = View.VISIBLE
-        } else {
-            binding.eventImage.setImageResource(R.drawable.concert)
-            binding.eventImage.visibility = View.VISIBLE
-        }
-    }
+        mainViewModel.isFavorite(this, eventId) { favoriteItem ->
+            Log.d("isfavoritedddd",eventId)
+            if (favoriteItem != null) {
+                isFavorited = true
 
-    private fun getEventInfoFromIntent() {
-        val tempIntent = intent
-
-        this.eventId = tempIntent.getStringExtra("EVENT_ID")!!
-        this.eventName = tempIntent.getStringExtra("EVENT_NAME")!!
-        this.eventThumb = tempIntent.getStringExtra("EVENT_THUMB")!!
-    }
-
-    private fun setupButtonListeners() {
-        binding.favoriteButton.setOnClickListener { toggleFavourite()}
-        binding.bookButton.setOnClickListener { openTicketmasterLink() }
-        binding.mapButton.setOnClickListener { openGoogleMaps() }
-        binding.rememberMeButton.setOnClickListener{remeberMe()}
-    }
-
-    private fun toggleFavourite() {
-        viewModel.addFavoriteEvent(this,event)
-        Toast.makeText(binding.root.context, "Event added", Toast.LENGTH_SHORT).show()
-
-
-    }
-
-    private fun openGoogleMaps() {
-
-            val latitude = venue?.location?.latitude?.toDouble() ?: 0.0
-            val longitude = venue?.location?.longitude?.toDouble() ?: 0.0
-
-            if (latitude != 0.0 && longitude != 0.0) {
-                val uri = "geo:$latitude,$longitude?q=$latitude,$longitude(${venue?.name})"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-                intent.setPackage("com.google.android.apps.maps")
-                ContextCompat.startActivity(binding.root.context, intent, null)
+                // Optionally, update UI to reflect it's favorite
+                binding.favoriteButton.setImageResource(R.drawable.ic_favorite_red)
             } else {
-                Toast.makeText(binding.root.context, "Event location is unavailable", Toast.LENGTH_SHORT).show()
+                isFavorited = false
+                binding.favoriteButton.setImageResource(R.drawable.ic_favorite)
             }
-
-
-    }
-
-    private fun openTicketmasterLink() {
-        val ticketmasterUrl = event.url
-        if (ticketmasterUrl.isNotEmpty()) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(ticketmasterUrl))
-            startActivity(intent)
         }
-    }
 
-
-
-    private fun showErrorState() {
-        binding.favoriteButton.visibility = View.GONE
-        binding.eventCategory.visibility = View.GONE
-        binding.eventDate.visibility = View.GONE
-        binding.eventAddress.visibility = View.GONE
-        binding.bookButton.visibility = View.GONE
-        binding.mapButton.visibility = View.GONE
-        binding.errorText.visibility = View.VISIBLE
-        binding.errorText.text = "Failed to load event details"
     }
 
     private fun displayEventDetails(event: Event) {
-        binding.favoriteButton.visibility = View.VISIBLE
-        binding.eventCategory.visibility = View.VISIBLE
-        binding.eventDate.visibility = View.VISIBLE
-        binding.eventAddress.visibility = View.VISIBLE
-        binding.bookButton.visibility = View.VISIBLE
-        binding.mapButton.visibility = View.VISIBLE
-        binding.errorText.visibility = View.GONE
+        binding.eventTitle.text = event.name
+        binding.organizer.text = "By ${event.promoter?.name ?: "Unknown"}"
+        binding.categoryPill.text = event.classifications?.firstOrNull()?.segment?.name ?: "Unknown"
+        binding.eventDate.text = event.dates.start.localDate
+        binding.eventTime.text = event.dates.start.localTime
+        binding.eventInfo.text = event.accessibility?.info ?: "-----"
 
-        binding.eventCategory.text = "Category: ${event.classifications?.firstOrNull()?.segment?.name ?: "Unknown"}"
-        binding.eventDate.text = "Date: ${event.dates.start.localDate} at ${event.dates.start.localTime ?: "TBA"}"
         venue = event._embedded.venues.firstOrNull()
-        binding.eventAddress.text = venue?.let {
-            "Address: ${it.name}, ${it.address?.line1 ?: "Unknown"}, ${it.city?.name ?: ""}, ${it.state?.name ?: ""}"
+        binding.eventLocation.text = venue?.let {
+            "${it.name}, ${it.address?.line1 ?: "Unknown"}, ${it.city?.name ?: ""}, ${it.state?.name ?: ""}"
         } ?: "Address: Unknown"
+
+        Glide.with(this)
+            .load(event.images.firstOrNull()?.url)
+            .placeholder(R.drawable.concert)
+            .into(binding.eventImage)
     }
 
-    private fun fetchEventDetails(eventId: String) {
-        viewModel.fetchDetailById(eventId)
+    private fun showErrorState() {
+        Toast.makeText(this, "Failed to load event details", Toast.LENGTH_SHORT).show()
+        binding.favoriteButton.visibility = View.GONE
+        binding.categoryPill.visibility = View.GONE
+        binding.eventDate.visibility = View.GONE
+        binding.eventLocation.visibility = View.GONE
     }
 
     private fun getEventStartTimeInMillis(localDate: String, localTime: String?): Long {
@@ -154,23 +165,24 @@ class EventDetail : AppCompatActivity() {
         return try {
             format.parse(dateTimeString)?.time ?: System.currentTimeMillis()
         } catch (e: Exception) {
-            System.currentTimeMillis() // Fallback if parsing fails
+            System.currentTimeMillis()
         }
     }
 
+    private fun rememberMe() {
+        val startMillis = getEventStartTimeInMillis(
+            eventDetail.dates.start.localDate,
+            eventDetail.dates.start.localTime
+        )
 
-    private fun remeberMe(){
-            val startMillis = getEventStartTimeInMillis(event.dates.start.localDate, event.dates.start.localTime)
-
-            val intent = Intent(Intent.ACTION_INSERT).apply {
-                data = CalendarContract.Events.CONTENT_URI
-                putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-                putExtra(CalendarContract.Events.TITLE, event.name)
-                putExtra(CalendarContract.Events.EVENT_LOCATION, venue?.name ?: "Unknown Location")
-            }
-            ContextCompat.startActivity(binding.root.context, intent, null)
+        val intent = Intent(Intent.ACTION_INSERT).apply {
+            data = CalendarContract.Events.CONTENT_URI
+            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+            putExtra(CalendarContract.Events.TITLE, eventDetail.name)
+            putExtra(CalendarContract.Events.EVENT_LOCATION, venue?.name ?: "Unknown Location")
         }
-
+        startActivity(intent)
+    }
 
 
 }

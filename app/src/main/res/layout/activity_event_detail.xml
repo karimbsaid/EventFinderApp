@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@android:color/white">
 
     <!-- Event Image -->
@@ -11,112 +12,208 @@
         android:id="@+id/eventImage"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_marginTop="80dp"
         android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/concert"
+        android:background="@drawable/top_rounded_background"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Favorite Button on Image -->
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/round_white_bg"
+        android:src="@drawable/ic_arrowback"
+        android:contentDescription="Back"
+        android:layout_margin="12dp"
+        app:layout_constraintTop_toTopOf="@id/eventImage"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Favorite Button -->
     <ImageButton
         android:id="@+id/favoriteButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
-        android:background="@android:color/background_light"
-        android:contentDescription="Favorite"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/round_white_bg"
         android:src="@drawable/ic_favorite"
-        app:layout_constraintEnd_toEndOf="@id/eventImage"
-        app:layout_constraintTop_toTopOf="@id/eventImage" />
+        android:contentDescription="Favorite"
+        android:layout_margin="12dp"
+        app:layout_constraintTop_toTopOf="@id/eventImage"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Event Details Container -->
-    <LinearLayout
-        android:id="@+id/detailsContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eventImage">
+    <!-- Share Button -->
+    <ImageButton
+        android:id="@+id/shareButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/round_white_bg"
+        android:src="@drawable/ic_share"
+        android:contentDescription="Share"
+        android:layout_margin="12dp"
+        app:layout_constraintTop_toTopOf="@id/eventImage"
+        app:layout_constraintEnd_toStartOf="@id/favoriteButton" />
 
-        <!-- Category -->
-        <TextView
-            android:id="@+id/eventCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Category: Music"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- Date -->
-        <TextView
-            android:id="@+id/eventDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Date: 2025-06-21 at 13:05"
-            android:textSize="16sp" />
-
-        <!-- Address -->
-        <TextView
-            android:id="@+id/eventAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Address: Yankee Stadium, Bronx, NY"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <!-- Buttons -->
-    <Button
-        android:id="@+id/bookButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Book"
-        app:layout_constraintBottom_toTopOf="@id/rememberMeButton"
-        app:layout_constraintEnd_toStartOf="@id/mapButton"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/mapButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="Show in Map"
-        app:layout_constraintBottom_toTopOf="@id/rememberMeButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/bookButton" />
-
-    <!-- Remember Me Button -->
-    <Button
-        android:id="@+id/rememberMeButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Remember Me"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+    <!-- Category Pill -->
     <TextView
-        android:id="@+id/errorText"
+        android:id="@+id/categoryPill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="26dp"
-        android:text=""
+        android:text="Technology"
+        android:textSize="12sp"
+        android:textColor="#5E72E4"
+        android:background="@drawable/category_pill"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        app:layout_constraintTop_toBottomOf="@id/eventImage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailsContainer" />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp" />
+
+    <!-- Event Title -->
+    <TextView
+        android:id="@+id/eventTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tech Conference 2023"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/categoryPill"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <!-- Organizer -->
+    <TextView
+        android:id="@+id/organizer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="By TechEvents Inc."
+        android:textSize="14sp"
+        android:textColor="#777"
+        app:layout_constraintTop_toBottomOf="@id/eventTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp" />
+
+    <!-- Info Card -->
+    <LinearLayout
+        android:id="@+id/infoCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_card_background"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/organizer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="top"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/eventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2023-11-15"
+                android:drawableLeft="@drawable/baseline_calendar_month_24"
+                android:drawablePadding="8dp"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/rememberMeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Remember me"
+                android:textColor="@color/primaryColor"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/eventTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09:00 - 18:00"
+            android:drawableLeft="@drawable/baseline_access_time_24"
+            android:drawablePadding="8dp"
+            android:textSize="14sp"
+            android:layout_marginTop="6dp" />
+
+        <TextView
+            android:id="@+id/eventLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tech Convention Center, San Francisco"
+            android:drawableLeft="@drawable/baseline_place_24"
+            android:drawablePadding="8dp"
+            android:textSize="14sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground" />
+
+        <TextView
+            android:id="@+id/showmapBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show in map"
+            android:textColor="@color/primaryColor" />
+    </LinearLayout>
+
+    <!-- Register Button -->
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#5E72E4"
+            android:text="Register Now"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- Info Section -->
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="337dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="Info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoCard" />
+
+    <TextView
+        android:id="@+id/eventInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:text="info desttttttttttttt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
