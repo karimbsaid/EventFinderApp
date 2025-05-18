@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primaryColor">#5E72E4</color>
 
-    5E72E4
+    <color name="error_red">#FF3B30</color>
+    <color name="success_green">#28A745</color>
 </resources>
