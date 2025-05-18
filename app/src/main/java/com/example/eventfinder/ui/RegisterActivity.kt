@@ -1,4 +1,4 @@
-package com.example.eventfinder
+package com.example.eventfinder.ui
 
 import android.content.Intent
 import android.os.Bundle

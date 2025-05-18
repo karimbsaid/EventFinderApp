@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Event finder</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Event Interested</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="titleEventFavorite">Event Interested</string>
+    <string name="title_profile">profile</string>
 </resources>

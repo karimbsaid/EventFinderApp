@@ -1,25 +1,23 @@
-package com.example.eventfinder.ui.notifications
+package com.example.eventfinder.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import com.example.eventfinder.LoginActivity
-import com.example.eventfinder.databinding.FragmentHomeBinding
-import com.example.eventfinder.databinding.FragmentNotificationsBinding
+import androidx.navigation.findNavController
+import com.example.eventfinder.R
+import com.example.eventfinder.ui.LoginActivity
+import com.example.eventfinder.databinding.FragmentProfileBinding
 import com.example.eventfinder.utils.TokenManager
 import com.example.eventfinder.viewmodel.AuthentificationVM
 import com.example.eventfinder.viewmodel.MainViewModel
 
-class NotificationsFragment : Fragment() {
+class MyProfileFragment : Fragment() {
 
-    private lateinit var binding: FragmentNotificationsBinding
+    private lateinit var binding: FragmentProfileBinding
     private val authVM: AuthentificationVM by viewModels()
     private val mainVM: MainViewModel by viewModels()
 
@@ -28,7 +26,7 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         val context = requireContext()
         val token = TokenManager.getToken(context)
@@ -37,6 +35,15 @@ class NotificationsFragment : Fragment() {
         if (!token.isNullOrEmpty()) {
             authVM.getUserInfo(token)
             mainVM.fetchFavorites(context) // Load user's favorite data
+        }
+
+//        binding.favorites.setOnClickListener{
+//            val navController = requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+//            navController.navigate(R.id.navigation_favorites)
+//        }
+        binding.favorites.setOnClickListener {
+            val bottomNav = requireActivity().findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.nav_view)
+            bottomNav.selectedItemId = R.id.navigation_favorites
         }
 
         binding.logoutBtn.setOnClickListener {

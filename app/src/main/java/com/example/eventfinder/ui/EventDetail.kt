@@ -1,4 +1,4 @@
-package com.example.eventfinder
+package com.example.eventfinder.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -9,8 +9,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.eventfinder.R
 import com.example.eventfinder.databinding.ActivityEventDetailBinding
 import com.example.eventfinder.model.Event
 import com.example.eventfinder.model.FavoriteRequest
