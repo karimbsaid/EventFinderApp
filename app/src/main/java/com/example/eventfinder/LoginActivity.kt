@@ -31,6 +31,10 @@ class LoginActivity : AppCompatActivity() {
             login()
         }
 
+        binding.forgotPasswordText.setOnClickListener{
+            startActivity(Intent(this,ForgetPasswordActivity::class.java))
+        }
+
         // Observe login success
         viewModel.user.observe(this) { user ->
             if (user != null) {
