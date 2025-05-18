@@ -1,16 +1,11 @@
-package com.example.eventfinder
+package com.example.eventfinder.ui
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.eventfinder.databinding.ActivityRegisterBinding
 import com.example.eventfinder.databinding.ActivityResetPasswordBinding
-import com.example.eventfinder.utils.TokenManager
 import com.example.eventfinder.viewmodel.AuthentificationVM
 
 class ResetPasswordActivity : AppCompatActivity() {

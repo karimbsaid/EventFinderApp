@@ -1,9 +1,9 @@
-package com.example.eventfinder
+package com.example.eventfinder.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.eventfinder.R
 import com.example.eventfinder.databinding.ActivityForgetPasswordBinding
 import com.example.eventfinder.viewmodel.AuthentificationVM
 

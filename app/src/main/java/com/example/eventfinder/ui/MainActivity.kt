@@ -1,12 +1,12 @@
-package com.example.eventfinder
+package com.example.eventfinder.ui
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.eventfinder.R
 import com.example.eventfinder.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -26,15 +26,15 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbar.title = when (destination.id) {
                 R.id.navigation_home -> "Home"
-                R.id.navigation_dashboard -> "Discover"
-                R.id.navigation_notifications -> "Favorites"
+                R.id.navigation_favorites -> "myFavorites"
+                R.id.navigation_profile -> "Profile"
                 else -> "EventFinder"
             }
         }
 
         // Bottom Nav and top-level destinations
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+            setOf(R.id.navigation_home, R.id.navigation_favorites, R.id.navigation_profile)
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)

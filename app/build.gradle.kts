@@ -16,6 +16,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField( "String", "TICKETMASTER_API_KEY", "\"${project.properties["TICKETMASTER_API_KEY"]}\"")
+        buildConfigField( "String", "SUPABASE_API_KEY", "\"${project.properties["SUPABASE_API_KEY"]}\"")
+
 
     }
 
@@ -53,6 +55,8 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     // Retrofit
+    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+
     implementation("com.squareup.retrofit2:retrofit:2.11.0") // latest as of 2025
     implementation("com.squareup.retrofit2:converter-gson:2.11.0") // if you use Gson for JSON parsing
 

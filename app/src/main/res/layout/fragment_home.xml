@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.home.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="45dp"
         android:orientation="vertical">
 
         <!-- Categories RecyclerView -->
@@ -17,19 +17,60 @@
             android:id="@+id/rvCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"/>
+            android:padding="8dp" />
+<!--        <LinearLayout-->
+<!--            android:id="@+id/usemylocation"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/round_white_bg"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:paddingStart="12dp"-->
+<!--            android:paddingEnd="12dp"-->
+<!--            android:layout_marginTop="24dp">-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/baseline_place_24" />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="use my location"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textColor="@color/primaryColor"/>-->
+<!--        </LinearLayout>-->
+
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="1000"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Add multiple shimmer cards as needed -->
+                <include layout="@layout/item_event_shimmer" />
+                <include layout="@layout/item_event_shimmer" />
+                <include layout="@layout/item_event_shimmer" />
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <!-- Real Event Data -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvEvents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp" />
-
-        <!-- Later you'll add events RecyclerView here -->
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:padding="8dp"
             android:visibility="gone" />
 
     </LinearLayout>

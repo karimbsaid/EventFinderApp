@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.eventfinder.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_favorites"
+        android:name="com.example.eventfinder.ui.myfavorite.MyFavoriteFragment"
+        android:label="@string/titleEventFavorite"
+        tools:layout="@layout/fragment_myfavoriteevents" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.eventfinder.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_profile"
+        android:name="com.example.eventfinder.ui.profile.MyProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

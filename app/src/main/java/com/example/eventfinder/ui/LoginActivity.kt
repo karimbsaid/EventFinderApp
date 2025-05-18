@@ -1,4 +1,4 @@
-package com.example.eventfinder
+package com.example.eventfinder.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.forgotPasswordText.setOnClickListener{
-            startActivity(Intent(this,ForgetPasswordActivity::class.java))
+            startActivity(Intent(this, ForgetPasswordActivity::class.java))
         }
 
         // Observe login success
