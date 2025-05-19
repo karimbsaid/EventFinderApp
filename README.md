@@ -5,10 +5,9 @@
 
 <img src="https://github.com/user-attachments/assets/a66afc25-106f-4482-950b-36ad3badaf5d" alt="homepage" width="300"/>
 ---
-
 ## 🎥 Video Demo
 
-👉 [Watch Demo](https://your-video-demo-url.com)
+👉 [Watch Demo](https://video-demo-url.com)
 
 ---
 
